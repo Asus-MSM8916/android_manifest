@@ -1,4 +1,35 @@
 #!/bin/bash
+function syncer {
+    if [ ! -d $XPATH/.repo/ ]; then
+        echo "!!! SYNC ERROR !!!"
+        exit
+    fi
+    repo sync -f -c -q -j $(nproc) --no-tags
+
+    if [ ! -d $XPATH/hardware/qcom/ ]; then
+        echo "!!! SYNC ERROR !!!"
+        exit
+    fi
+    cd $XPATH/hardware/qcom/display-caf/msm8916
+    curl https://github.com/YaAlex3/android_hardware_qcom_display/commit/81ff90e84f82f95674f4bb0d1a51db2ce123eeef.patch | git am
+    cd $XPATH/hardware/qcom/audio-caf/msm8916
+    curl https://github.com/YaAlex3/android_hardware_qcom_audio/commit/82c5cd225e57c21f3475766a5069626b365e66a9.patch | git am
+
+    if [ ! -d $XPATH/vendor/opengapps/ ]; then
+        echo "NO GAPPS SYNCED"
+    fi
+    cd $XPATH/vendor/opengapps/sources/all
+    git lfs pull
+    cd $XPATH/vendor/opengapps/sources/arm
+    git lfs pull
+    cd $XPATH/vendor/opengapps/sources/arm64
+    git lfs pull
+    cd $XPATH/vendor/opengapps/sources/x86
+    git lfs pull
+    cd $XPATH/vendor/opengapps/sources/x86_64
+    git lfs pull
+}
+
 XPATH=$(pwd)
 
 clear
@@ -72,34 +103,4 @@ echo ""
 echo "---------START SYNCING---------"
 echo ""
 
-if [ -d $XPATH/.repo/ ]; then
-    repo sync -f -c -q -j $(nproc) --no-tags
-else
-    echo "!!! SYNC ERROR !!!"
-    exit
-fi
-
-if [ -d $XPATH/hardware/qcom/ ]; then
-    cd $XPATH/hardware/qcom/display-caf/msm8916
-    curl https://github.com/YaAlex3/android_hardware_qcom_display/commit/81ff90e84f82f95674f4bb0d1a51db2ce123eeef.patch | git am
-    cd $XPATH/hardware/qcom/audio-caf/msm8916
-    curl https://github.com/YaAlex3/android_hardware_qcom_audio/commit/82c5cd225e57c21f3475766a5069626b365e66a9.patch | git am
-else
-    echo "!!! SYNC ERROR !!!"
-    exit
-fi
-
-if [ -d $XPATH/vendor/opengapps/ ]; then
-    cd $XPATH/vendor/opengapps/sources/all
-    git lfs pull
-    cd $XPATH/vendor/opengapps/sources/arm
-    git lfs pull
-    cd $XPATH/vendor/opengapps/sources/arm64
-    git lfs pull
-    cd $XPATH/vendor/opengapps/sources/x86
-    git lfs pull
-    cd $XPATH/vendor/opengapps/sources/x86_64
-    git lfs pull
-else
-    echo "NO GAPPS SYNCED"
-fi
+syncer
