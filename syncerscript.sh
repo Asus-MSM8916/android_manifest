@@ -1,10 +1,5 @@
 #!/bin/bash
-function syncer {
-    if [ ! -d $XPATH/.repo/ ]; then
-        echo "!!! SYNC ERROR !!!"
-        exit
-    fi
-
+function logo {
     clear
 
     echo "╔╗──╔╗╔══╗╔╗──╔╗╔══╗╔══╗─╔╗╔══╗"
@@ -14,6 +9,15 @@ function syncer {
     echo "║║╚╝║║╔═╝║║║╚╝║║║╚╝║╔═╝║─║║║╚╝║"
     echo "╚╝──╚╝╚══╝╚╝──╚╝╚══╝╚══╝─╚╝╚══╝"
     echo ""
+}
+
+function syncer {
+    if [ ! -d $XPATH/.repo/ ]; then
+        echo "!!! SYNC ERROR !!!"
+        exit
+    fi
+
+    logo
     echo "-----------SYNC TYPE-----------"
     echo ""
     echo "1 - Fast sync"
@@ -21,15 +25,7 @@ function syncer {
 
     read -s -n 1 XCHOICE
 
-    clear
-
-    echo "╔╗──╔╗╔══╗╔╗──╔╗╔══╗╔══╗─╔╗╔══╗"
-    echo "║║──║║║╔═╝║║──║║║╔╗║║╔╗║╔╝║║╔═╝"
-    echo "║╚╗╔╝║║╚═╗║╚╗╔╝║║╚╝║║╚╝║╚╗║║╚═╗"
-    echo "║╔╗╔╗║╚═╗║║╔╗╔╗║║╔╗║╚═╗║─║║║╔╗║"
-    echo "║║╚╝║║╔═╝║║║╚╝║║║╚╝║╔═╝║─║║║╚╝║"
-    echo "╚╝──╚╝╚══╝╚╝──╚╝╚══╝╚══╝─╚╝╚══╝"
-    echo ""
+    logo
     echo "------------SYNCING------------"
 
     case $XCHOICE in
@@ -67,15 +63,7 @@ function syncer {
 
 XPATH=$(pwd)
 
-clear
-
-echo "╔╗──╔╗╔══╗╔╗──╔╗╔══╗╔══╗─╔╗╔══╗"
-echo "║║──║║║╔═╝║║──║║║╔╗║║╔╗║╔╝║║╔═╝"
-echo "║╚╗╔╝║║╚═╗║╚╗╔╝║║╚╝║║╚╝║╚╗║║╚═╗"
-echo "║╔╗╔╗║╚═╗║║╔╗╔╗║║╔╗║╚═╗║─║║║╔╗║"
-echo "║║╚╝║║╔═╝║║║╚╝║║║╚╝║╔═╝║─║║║╚╝║"
-echo "╚╝──╚╝╚══╝╚╝──╚╝╚══╝╚══╝─╚╝╚══╝"
-echo ""
+logo
 echo "--------------ROM--------------"
 echo ""
 echo "0 - Skip setup"
@@ -100,15 +88,7 @@ if [ ! -d $XPATH/.repo/ ]; then
     exit
 fi
 
-clear
-
-echo "╔╗──╔╗╔══╗╔╗──╔╗╔══╗╔══╗─╔╗╔══╗"
-echo "║║──║║║╔═╝║║──║║║╔╗║║╔╗║╔╝║║╔═╝"
-echo "║╚╗╔╝║║╚═╗║╚╗╔╝║║╚╝║║╚╝║╚╗║║╚═╗"
-echo "║╔╗╔╗║╚═╗║║╔╗╔╗║║╔╗║╚═╗║─║║║╔╗║"
-echo "║║╚╝║║╔═╝║║║╚╝║║║╚╝║╔═╝║─║║║╚╝║"
-echo "╚╝──╚╝╚══╝╚╝──╚╝╚══╝╚══╝─╚╝╚══╝"
-echo ""
+logo
 echo "----------DEVICE TREE----------"
 echo ""
 echo "1 - Z00ED"
