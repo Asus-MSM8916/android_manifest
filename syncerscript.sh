@@ -15,6 +15,9 @@ echo ""
 echo "1 - LineageOS 16"
 
 read -s -n 1 XCHOICE
+
+clear
+
 case $XCHOICE in
     1)
         repo init -u git://github.com/LineageOS/android.git -b lineage-16.0
@@ -25,8 +28,6 @@ if [ ! -d $XPATH/.repo/ ]; then
     echo "!!! NO ROM MANIFEST INITIALIZED !!!"
     exit
 fi
-
-clear
 
 echo "╔╗──╔╗╔══╗╔╗──╔╗╔══╗╔══╗─╔╗╔══╗"
 echo "║║──║║║╔═╝║║──║║║╔╗║║╔╗║╔╝║║╔═╝"
@@ -41,6 +42,9 @@ echo "1 - Z00ED"
 echo "2 - Z00ED GAPPS"
 
 read -s -n 1 XCHOICE
+
+clear
+
 case $XCHOICE in
     1)
         git clone https://github.com/Asus-MSM8916/android_manifest.git -b lineage-16.0-Z00ED
@@ -57,8 +61,6 @@ fi
 
 mv $XPATH/android_manifest/local_manifests/ $XPATH/.repo/local_manifests/
 rm -rf $XPATH/android_manifest/
-
-clear
 
 echo "╔╗──╔╗╔══╗╔╗──╔╗╔══╗╔══╗─╔╗╔══╗"
 echo "║║──║║║╔═╝║║──║║║╔╗║║╔╗║╔╝║║╔═╝"
