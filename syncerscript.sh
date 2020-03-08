@@ -4,7 +4,42 @@ function syncer {
         echo "!!! SYNC ERROR !!!"
         exit
     fi
-    repo sync -f -c -q -j $(nproc) --no-tags
+
+    clear
+
+    echo "╔╗──╔╗╔══╗╔╗──╔╗╔══╗╔══╗─╔╗╔══╗"
+    echo "║║──║║║╔═╝║║──║║║╔╗║║╔╗║╔╝║║╔═╝"
+    echo "║╚╗╔╝║║╚═╗║╚╗╔╝║║╚╝║║╚╝║╚╗║║╚═╗"
+    echo "║╔╗╔╗║╚═╗║║╔╗╔╗║║╔╗║╚═╗║─║║║╔╗║"
+    echo "║║╚╝║║╔═╝║║║╚╝║║║╚╝║╔═╝║─║║║╚╝║"
+    echo "╚╝──╚╝╚══╝╚╝──╚╝╚══╝╚══╝─╚╝╚══╝"
+    echo ""
+    echo "-----------SYNC TYPE-----------"
+    echo ""
+    echo "1 - Fast sync"
+    echo "2 - Slow sync"
+
+    read -s -n 1 XCHOICE
+
+    clear
+
+    echo "╔╗──╔╗╔══╗╔╗──╔╗╔══╗╔══╗─╔╗╔══╗"
+    echo "║║──║║║╔═╝║║──║║║╔╗║║╔╗║╔╝║║╔═╝"
+    echo "║╚╗╔╝║║╚═╗║╚╗╔╝║║╚╝║║╚╝║╚╗║║╚═╗"
+    echo "║╔╗╔╗║╚═╗║║╔╗╔╗║║╔╗║╚═╗║─║║║╔╗║"
+    echo "║║╚╝║║╔═╝║║║╚╝║║║╚╝║╔═╝║─║║║╚╝║"
+    echo "╚╝──╚╝╚══╝╚╝──╚╝╚══╝╚══╝─╚╝╚══╝"
+    echo ""
+    echo "------------SYNCING------------"
+
+    case $XCHOICE in
+        1)
+            repo sync -f -c -q -j $(nproc) --no-tags
+            ;;
+        2)
+            repo sync -f -c -q -j 4 --no-tags
+            ;;
+    esac
 
     if [ ! -d $XPATH/hardware/qcom/ ]; then
         echo "!!! SYNC ERROR !!!"
@@ -99,17 +134,5 @@ fi
 
 mv $XPATH/android_manifest/local_manifests/ $XPATH/.repo/local_manifests/
 rm -rf $XPATH/android_manifest/
-
-clear
-
-echo "╔╗──╔╗╔══╗╔╗──╔╗╔══╗╔══╗─╔╗╔══╗"
-echo "║║──║║║╔═╝║║──║║║╔╗║║╔╗║╔╝║║╔═╝"
-echo "║╚╗╔╝║║╚═╗║╚╗╔╝║║╚╝║║╚╝║╚╗║║╚═╗"
-echo "║╔╗╔╗║╚═╗║║╔╗╔╗║║╔╗║╚═╗║─║║║╔╗║"
-echo "║║╚╝║║╔═╝║║║╚╝║║║╚╝║╔═╝║─║║║╚╝║"
-echo "╚╝──╚╝╚══╝╚╝──╚╝╚══╝╚══╝─╚╝╚══╝"
-echo ""
-echo "---------START SYNCING---------"
-echo ""
 
 syncer
