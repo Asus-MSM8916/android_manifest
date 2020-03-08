@@ -13,7 +13,11 @@ function logo {
 
 function syncer {
     if [ ! -d $XPATH/.repo/ ]; then
-        echo "!!! SYNC ERROR !!!"
+        echo "!!! NO ROM MANIFEST INITIALIZED !!!"
+        exit
+    fi
+    if [ ! -d $XPATH/.repo/local_manifests/ ]; then
+        echo "!!! NO DEVICE TREE INITIALIZED !!!"
         exit
     fi
 
