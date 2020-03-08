@@ -26,6 +26,7 @@ function syncer {
     echo ""
     echo "1 - Fast sync"
     echo "2 - Slow sync"
+    echo "3 - Forced sync"
 
     read -s -n 1 XCHOICE
 
@@ -38,6 +39,9 @@ function syncer {
             ;;
         2)
             repo sync -f -c -q -j 4 --no-tags
+            ;;
+        3)
+            repo sync -f -c -q -j $(nproc) --no-tags --force-sync --no-clone-bundle
             ;;
         *)
             echo "WAT?"
