@@ -43,6 +43,7 @@ echo "╚╝──╚╝╚══╝╚╝──╚╝╚══╝╚══╝�
 echo ""
 echo "--------------ROM--------------"
 echo ""
+echo "0 - Skip setup"
 echo "1 - LineageOS 16"
 
 read -s -n 1 XCHOICE
@@ -50,6 +51,10 @@ read -s -n 1 XCHOICE
 clear
 
 case $XCHOICE in
+    0)
+        syncer
+        exit
+        ;;
     1)
         repo init -u git://github.com/LineageOS/android.git -b lineage-16.0
         ;;
