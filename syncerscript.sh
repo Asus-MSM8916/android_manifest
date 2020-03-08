@@ -39,6 +39,10 @@ function syncer {
         2)
             repo sync -f -c -q -j 4 --no-tags
             ;;
+        *)
+            echo "WAT?"
+            exit
+            ;;
     esac
 
     if [ ! -d $XPATH/hardware/qcom/ ]; then
@@ -85,6 +89,10 @@ case $XCHOICE in
     1)
         repo init -u git://github.com/LineageOS/android.git -b lineage-16.0
         ;;
+    *)
+        echo "WAT?"
+        exit
+        ;;
 esac
 
 if [ ! -d $XPATH/.repo/ ]; then
@@ -108,6 +116,10 @@ case $XCHOICE in
         ;;
     2)
         git clone https://github.com/Asus-MSM8916/android_manifest.git -b lineage-16.0-Z00ED-gapps
+        ;;
+    *)
+        echo "WAT?"
+        exit
         ;;
 esac
 
