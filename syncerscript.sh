@@ -65,6 +65,8 @@ if [ ! -d $XPATH/.repo/ ]; then
     exit
 fi
 
+clear
+
 echo "╔╗──╔╗╔══╗╔╗──╔╗╔══╗╔══╗─╔╗╔══╗"
 echo "║║──║║║╔═╝║║──║║║╔╗║║╔╗║╔╝║║╔═╝"
 echo "║╚╗╔╝║║╚═╗║╚╗╔╝║║╚╝║║╚╝║╚╗║║╚═╗"
@@ -97,6 +99,8 @@ fi
 
 mv $XPATH/android_manifest/local_manifests/ $XPATH/.repo/local_manifests/
 rm -rf $XPATH/android_manifest/
+
+clear
 
 echo "╔╗──╔╗╔══╗╔╗──╔╗╔══╗╔══╗─╔╗╔══╗"
 echo "║║──║║║╔═╝║║──║║║╔╗║║╔╗║╔╝║║╔═╝"
