@@ -80,6 +80,7 @@ echo "--------------ROM--------------"
 echo ""
 echo "0 - Skip setup"
 echo "1 - LineageOS 16"
+echo "2 - LineageOS 16 (disk space saving)"
 
 read -s -n 1 XCHOICE
 
@@ -92,6 +93,9 @@ case $XCHOICE in
         ;;
     1)
         repo init -u git://github.com/LineageOS/android.git -b lineage-16.0
+        ;;
+    2)
+        repo init --depth=1 -u git://github.com/LineageOS/android.git -b lineage-16.0
         ;;
     *)
         echo "WAT?"
