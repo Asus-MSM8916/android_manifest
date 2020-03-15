@@ -32,6 +32,7 @@ function syncer {
 
     logo
     echo "------------SYNCING------------"
+    echo "--------------ROM--------------"
 
     case $XCHOICE in
         1)
@@ -53,6 +54,11 @@ function syncer {
         echo "!!! SYNC ERROR !!!"
         exit
     fi
+    
+    logo
+    echo "------------SYNCING------------"
+    echo "----QCOM CAF HARDWARE FIXES----"
+    
     cd $XPATH/hardware/qcom/display-caf/msm8916
     curl https://github.com/YaAlex3/android_hardware_qcom_display/commit/81ff90e84f82f95674f4bb0d1a51db2ce123eeef.patch | git am
     cd $XPATH/hardware/qcom/audio-caf/msm8916
@@ -61,16 +67,44 @@ function syncer {
     if [ ! -d $XPATH/vendor/opengapps/ ]; then
         echo "NO GAPPS SYNCED"
     fi
+    
+    logo
+    echo "------------SYNCING------------"
+    echo "-----------GAPPS 1/5-----------"
+    
     cd $XPATH/vendor/opengapps/sources/all
     git lfs pull
+    
+    logo
+    echo "------------SYNCING------------"
+    echo "-----------GAPPS 2/5-----------"
+    
     cd $XPATH/vendor/opengapps/sources/arm
     git lfs pull
+    
+    logo
+    echo "------------SYNCING------------"
+    echo "-----------GAPPS 3/5-----------"
+    
     cd $XPATH/vendor/opengapps/sources/arm64
     git lfs pull
+    
+    logo
+    echo "------------SYNCING------------"
+    echo "-----------GAPPS 4/5-----------"
+    
     cd $XPATH/vendor/opengapps/sources/x86
     git lfs pull
+    
+    logo
+    echo "------------SYNCING------------"
+    echo "-----------GAPPS 5/5-----------"
+    
     cd $XPATH/vendor/opengapps/sources/x86_64
     git lfs pull
+    
+    logo
+    echo "-------------DONE.-------------"
 }
 
 XPATH=$(pwd)
