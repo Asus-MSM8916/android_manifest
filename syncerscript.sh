@@ -160,11 +160,11 @@ fi
 logo
 echo "----------DEVICE TREE----------"
 echo ""
-echo "1 - Z00ED"
-echo "2 - Z00ED GAPPS"
-echo "3 - Z00xD"
-echo "4 - Z00xD GAPPS"
-echo "5 - Z00xD-TWRP"
+echo "1 - Z00ED LOS16"
+echo "2 - Z00ED LOS16+GAPPS"
+echo "3 - Z00xD LOS16"
+echo "4 - Z00xD LOS16+GAPPS"
+echo "5 - Z00xD TWRP9"
 
 read -s -n 1 XCHOICE
 
