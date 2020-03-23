@@ -109,6 +109,13 @@ function syncer {
 
 XPATH=$(pwd)
 
+if [ -d $XPATH/.git/ ]; then
+    rm -rf $XPATH/.git/
+fi
+if [ -f $XPATH/README.md ]; then
+    rm -rf $XPATH/README.md
+fi
+
 logo
 echo "--------------ROM--------------"
 echo ""
