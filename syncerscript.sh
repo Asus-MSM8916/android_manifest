@@ -147,6 +147,8 @@ echo "----------DEVICE TREE----------"
 echo ""
 echo "1 - Z00ED"
 echo "2 - Z00ED GAPPS"
+echo "3 - Z00xD"
+echo "4 - Z00xD GAPPS"
 
 read -s -n 1 XCHOICE
 
@@ -158,6 +160,12 @@ case $XCHOICE in
         ;;
     2)
         git clone https://github.com/Asus-MSM8916/android_manifest.git -b lineage-16.0-Z00ED-gapps
+        ;;
+    3)
+        git clone https://github.com/Asus-MSM8916/android_manifest.git -b lineage-16.0-Z00xD
+        ;;
+    4)
+        git clone https://github.com/Asus-MSM8916/android_manifest.git -b lineage-16.0-Z00xD-gapps
         ;;
     *)
         echo "WAT?"
