@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
   <!-- ASUS ZenFone 2 Laser ZE500KL ZE500KG -->
-  <project name="Asus-MSM8916/android_device_asus_Z00xD-twrp" path="device/asus/Z00xD" revision="8.x-twrp" remote="github" />
+  <project name="Asus-MSM8916/android_device_asus_Z00xD-twrp" path="device/asus/Z00xD" revision="9.x-twrp" remote="github" />
 </manifest>
