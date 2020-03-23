@@ -122,6 +122,8 @@ echo ""
 echo "0 - Skip setup"
 echo "1 - LineageOS 16"
 echo "2 - LineageOS 16 (disk space saving)"
+echo "3 - TWRP 9.x"
+echo "4 - TWRP 9.x (disk space saving)"
 
 read -s -n 1 XCHOICE
 
@@ -137,6 +139,12 @@ case $XCHOICE in
         ;;
     2)
         repo init --depth=1 -u git://github.com/LineageOS/android.git -b lineage-16.0
+        ;;
+    3)
+        repo init -u git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-9.0
+        ;;
+    4)
+        repo init --depth=1 -u git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-9.0
         ;;
     *)
         echo "WAT?"
@@ -156,6 +164,7 @@ echo "1 - Z00ED"
 echo "2 - Z00ED GAPPS"
 echo "3 - Z00xD"
 echo "4 - Z00xD GAPPS"
+echo "5 - Z00xD-TWRP"
 
 read -s -n 1 XCHOICE
 
@@ -173,6 +182,9 @@ case $XCHOICE in
         ;;
     4)
         git clone https://github.com/Asus-MSM8916/android_manifest.git -b lineage-16.0-Z00xD-gapps
+        ;;
+    5)
+        git clone https://github.com/Asus-MSM8916/android_manifest.git -b twrp-9.0-Z00xD
         ;;
     *)
         echo "WAT?"
