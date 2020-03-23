@@ -11,7 +11,53 @@ function logo {
     echo ""
 }
 
-function syncer {
+function syncopengapps {
+    logo
+    echo "------------SYNCING------------"
+    echo "-----------GAPPS 1/5-----------"
+
+    cd $XPATH/vendor/opengapps/sources/all
+    git lfs pull
+
+    echo ""
+    echo "-----------GAPPS 2/5-----------"
+    
+    cd $XPATH/vendor/opengapps/sources/arm
+    git lfs pull
+
+    echo ""
+    echo "-----------GAPPS 3/5-----------"
+    
+    cd $XPATH/vendor/opengapps/sources/arm64
+    git lfs pull
+
+    echo ""
+    echo "-----------GAPPS 4/5-----------"
+    
+    cd $XPATH/vendor/opengapps/sources/x86
+    git lfs pull
+
+    echo ""
+    echo "-----------GAPPS 5/5-----------"
+    
+    cd $XPATH/vendor/opengapps/sources/x86_64
+    git lfs pull
+}
+
+function fixqcomcaf {
+    logo
+    echo "------------SYNCING------------"
+    echo "----QCOM CAF HARDWARE FIXES----"
+
+    cd $XPATH/hardware/qcom/display-caf/msm8916
+    curl https://github.com/YaAlex3/android_hardware_qcom_display/commit/81ff90e84f82f95674f4bb0d1a51db2ce123eeef.patch | git am
+    cd $XPATH/hardware/qcom/audio-caf/msm8916
+    curl https://github.com/YaAlex3/android_hardware_qcom_audio/commit/82c5cd225e57c21f3475766a5069626b365e66a9.patch | git am
+}
+
+function syncall {
+    logo
+
     if [ ! -d $XPATH/.repo/ ]; then
         echo "!!! NO ROM MANIFEST INITIALIZED !!!"
         exit
@@ -21,7 +67,6 @@ function syncer {
         exit
     fi
 
-    logo
     echo "-----------SYNC TYPE-----------"
     echo ""
     echo "1 - Fast sync"
@@ -50,61 +95,85 @@ function syncer {
             ;;
     esac
 
-    if [ ! -d $XPATH/hardware/qcom/ ]; then
+    if [ -d $XPATH/hardware/qcom/ ]; then
+        fixqcomcaf
+    fi
+
+    if [ -d $XPATH/vendor/opengapps/ ]; then
+        syncopengapps
+    fi
+
+    logo
+    echo "-------------DONE.-------------"
+    exit
+}
+
+function initdevice {
+    logo
+
+    if [ ! -d $XPATH/.repo/ ]; then
+        echo "!!! NO ROM MANIFEST INITIALIZED !!!"
+        exit
+    fi
+
+    echo "----------DEVICE TREE----------"
+    echo ""
+    echo "1 - Z00ED LOS16"
+    echo "2 - Z00ED LOS16+OPENGAPPS"
+    echo "3 - Z00xD LOS16"
+    echo "4 - Z00xD LOS16+OPENGAPPS"
+    
+    read -s -n 1 XCHOICE
+
+    clear
+
+    case $XCHOICE in
+        1)
+            git clone https://github.com/Asus-MSM8916/android_manifest.git -b lineage-16.0-Z00ED
+            ;;
+        2)
+            git clone https://github.com/Asus-MSM8916/android_manifest.git -b lineage-16.0-Z00ED-gapps
+            ;;
+        3)
+            git clone https://github.com/Asus-MSM8916/android_manifest.git -b lineage-16.0-Z00xD
+            ;;
+        4)
+            git clone https://github.com/Asus-MSM8916/android_manifest.git -b lineage-16.0-Z00xD-gapps
+            ;;
+        *)
+            echo "WAT?"
+            exit
+            ;;
+    esac
+
+    if [ ! -d $XPATH/android_manifest/ ]; then
         echo "!!! SYNC ERROR !!!"
         exit
     fi
-    
-    logo
-    echo "------------SYNCING------------"
-    echo "----QCOM CAF HARDWARE FIXES----"
-    
-    cd $XPATH/hardware/qcom/display-caf/msm8916
-    curl https://github.com/YaAlex3/android_hardware_qcom_display/commit/81ff90e84f82f95674f4bb0d1a51db2ce123eeef.patch | git am
-    cd $XPATH/hardware/qcom/audio-caf/msm8916
-    curl https://github.com/YaAlex3/android_hardware_qcom_audio/commit/82c5cd225e57c21f3475766a5069626b365e66a9.patch | git am
 
-    if [ ! -d $XPATH/vendor/opengapps/ ]; then
-        echo "NO GAPPS SYNCED"
+    mv $XPATH/android_manifest/local_manifests/ $XPATH/.repo/local_manifests/
+    rm -rf $XPATH/android_manifest/
+}
+
+function inittwrp {
+    logo
+
+    if [ ! -d $XPATH/.repo/ ]; then
+        echo "!!! NO ROM MANIFEST INITIALIZED !!!"
+        exit
     fi
-    
-    logo
-    echo "------------SYNCING------------"
-    echo "-----------GAPPS 1/5-----------"
-    
-    cd $XPATH/vendor/opengapps/sources/all
-    git lfs pull
-    
-    logo
-    echo "------------SYNCING------------"
-    echo "-----------GAPPS 2/5-----------"
-    
-    cd $XPATH/vendor/opengapps/sources/arm
-    git lfs pull
-    
-    logo
-    echo "------------SYNCING------------"
-    echo "-----------GAPPS 3/5-----------"
-    
-    cd $XPATH/vendor/opengapps/sources/arm64
-    git lfs pull
-    
-    logo
-    echo "------------SYNCING------------"
-    echo "-----------GAPPS 4/5-----------"
-    
-    cd $XPATH/vendor/opengapps/sources/x86
-    git lfs pull
-    
-    logo
-    echo "------------SYNCING------------"
-    echo "-----------GAPPS 5/5-----------"
-    
-    cd $XPATH/vendor/opengapps/sources/x86_64
-    git lfs pull
-    
-    logo
-    echo "-------------DONE.-------------"
+
+    echo "-----------TWRP TREE-----------"
+
+    git clone https://github.com/Asus-MSM8916/android_manifest.git -b twrp-9.0-Z00xD
+
+    if [ ! -d $XPATH/android_manifest/ ]; then
+        echo "!!! SYNC ERROR !!!"
+        exit
+    fi
+
+    mv $XPATH/android_manifest/local_manifests/ $XPATH/.repo/local_manifests/
+    rm -rf $XPATH/android_manifest/
 }
 
 XPATH=$(pwd)
@@ -120,10 +189,10 @@ logo
 echo "--------------ROM--------------"
 echo ""
 echo "0 - Skip setup"
-echo "1 - LineageOS 16"
-echo "2 - LineageOS 16 (disk space saving)"
-echo "3 - TWRP 9.x"
-echo "4 - TWRP 9.x (disk space saving)"
+echo "1 - TWRP 9.x"
+echo "2 - TWRP 9.x (disk space saving)"
+echo "3 - LineageOS 16"
+echo "4 - LineageOS 16 (disk space saving)"
 
 read -s -n 1 XCHOICE
 
@@ -131,60 +200,24 @@ clear
 
 case $XCHOICE in
     0)
-        syncer
+        syncall
         exit
         ;;
     1)
-        repo init -u git://github.com/LineageOS/android.git -b lineage-16.0
-        ;;
-    2)
-        repo init --depth=1 -u git://github.com/LineageOS/android.git -b lineage-16.0
-        ;;
-    3)
         repo init -u git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-9.0
-        ;;
-    4)
-        repo init --depth=1 -u git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-9.0
-        ;;
-    *)
-        echo "WAT?"
-        exit
-        ;;
-esac
-
-if [ ! -d $XPATH/.repo/ ]; then
-    echo "!!! NO ROM MANIFEST INITIALIZED !!!"
-    exit
-fi
-
-logo
-echo "----------DEVICE TREE----------"
-echo ""
-echo "1 - Z00ED LOS16"
-echo "2 - Z00ED LOS16+GAPPS"
-echo "3 - Z00xD LOS16"
-echo "4 - Z00xD LOS16+GAPPS"
-echo "5 - Z00xD TWRP9"
-
-read -s -n 1 XCHOICE
-
-clear
-
-case $XCHOICE in
-    1)
-        git clone https://github.com/Asus-MSM8916/android_manifest.git -b lineage-16.0-Z00ED
+        inittwrp
         ;;
     2)
-        git clone https://github.com/Asus-MSM8916/android_manifest.git -b lineage-16.0-Z00ED-gapps
+        repo init --depth=1 -u git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-9.0
+        inittwrp
         ;;
     3)
-        git clone https://github.com/Asus-MSM8916/android_manifest.git -b lineage-16.0-Z00xD
+        repo init -u git://github.com/LineageOS/android.git -b lineage-16.0
+        initdevice
         ;;
     4)
-        git clone https://github.com/Asus-MSM8916/android_manifest.git -b lineage-16.0-Z00xD-gapps
-        ;;
-    5)
-        git clone https://github.com/Asus-MSM8916/android_manifest.git -b twrp-9.0-Z00xD
+        repo init --depth=1 -u git://github.com/LineageOS/android.git -b lineage-16.0
+        initdevice
         ;;
     *)
         echo "WAT?"
@@ -192,12 +225,4 @@ case $XCHOICE in
         ;;
 esac
 
-if [ ! -d $XPATH/android_manifest/ ]; then
-    echo "!!! NO DEVICE TREE INITIALIZED !!!"
-    exit
-fi
-
-mv $XPATH/android_manifest/local_manifests/ $XPATH/.repo/local_manifests/
-rm -rf $XPATH/android_manifest/
-
-syncer
+syncall
