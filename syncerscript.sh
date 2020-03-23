@@ -49,9 +49,9 @@ function fixqcomcaf {
     echo "------------SYNCING------------"
     echo "----QCOM CAF HARDWARE FIXES----"
 
-    cd $XPATH/hardware/qcom/display-caf/msm8916
+    cd $XPATH/hardware/qcom/display-caf/msm8916/
     curl https://github.com/YaAlex3/android_hardware_qcom_display/commit/81ff90e84f82f95674f4bb0d1a51db2ce123eeef.patch | git am
-    cd $XPATH/hardware/qcom/audio-caf/msm8916
+    cd $XPATH/hardware/qcom/audio-caf/msm8916/
     curl https://github.com/YaAlex3/android_hardware_qcom_audio/commit/82c5cd225e57c21f3475766a5069626b365e66a9.patch | git am
 }
 
@@ -95,8 +95,10 @@ function syncall {
             ;;
     esac
 
-    if [ -d $XPATH/hardware/qcom/ ]; then
-        fixqcomcaf
+    if [ -d $XPATH/hardware/qcom/display-caf/msm8916/ ]; then
+        if [ -d $XPATH/hardware/qcom/audio-caf/msm8916/ ]; then
+            fixqcomcaf
+        fi
     fi
 
     if [ -d $XPATH/vendor/opengapps/ ]; then
@@ -201,7 +203,6 @@ clear
 case $XCHOICE in
     0)
         syncall
-        exit
         ;;
     1)
         repo init -u git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-9.0
