@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
   <!-- ASUS ZenFone 2 Laser ZE500KL ZE500KG -->
-  <project name="Asus-MSM8916/android_device_asus_Z00xD" path="device/asus/Z00xD" revision="lineage-16.0" remote="github" />
-  <project name="Asus-MSM8916/android_device_asus_msm8916-common" path="device/asus/msm8916-common" revision="lineage-16.0" remote="github" />
-  <project name="Asus-MSM8916/android_kernel_asus_msm8916" path="kernel/asus/msm8916" revision="9.x-staging" remote="github" />
-  <project name="Asus-MSM8916/android_vendor_asus" path="vendor/asus" revision="9.x" remote="github" />
-  <project name="kdrag0n/aarch64-elf-gcc" path="prebuilts/gcc/linux-x86/aarch64/aarch64-elf" revision="9.x" remote="github" />
+  <project name="Asus-MSM8916/android_device_asus_Z00xD-twrp" path="device/asus/Z00xD" revision="8.x-twrp" remote="github" />
 </manifest>
