@@ -79,6 +79,13 @@ function syncall {
     echo "------------SYNCING------------"
     echo "--------------ROM--------------"
 
+    if [ -d $XPATH/hardware/qcom/display-caf/msm8916/ ]; then
+        rm -rf $XPATH/hardware/qcom/display-caf/msm8916/
+    fi
+    if [ -d $XPATH/hardware/qcom/audio-caf/msm8916/ ]; then
+        rm -rf $XPATH/hardware/qcom/audio-caf/msm8916/
+    fi
+
     case $XCHOICE in
         1)
             repo sync -f -c -q -j $(nproc) --no-tags
