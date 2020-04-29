@@ -90,7 +90,7 @@ function InitROM {
     echo ""
     echo "1 - TWRP"
     echo "2 - LineageOS 16.0"
-    echo "3 - LineageOS 17.0"
+    echo "3 - LineageOS 17.1"
     echo ""
     read -s -n 1 SH_CHOICE
     case $SH_CHOICE in
