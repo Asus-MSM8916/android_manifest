@@ -375,6 +375,7 @@ if [ -d $VAR_LOCAL_PATH/.repo/ ]; then
     case $SH_CHOICE in
         y)
             SyncRepo
+            BuildAndroid
             ;;
         n)
             echo $LANG_DELETING
