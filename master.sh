@@ -79,7 +79,7 @@ function PrepareSystem {
     if [ "$(uname -a | grep ubuntu)" == "ubuntu" ] || [ $SH_CHOICE == y ]; then
         echo $LANG_INSTALLING
         echo ""
-        sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install -y git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc unzip git imagemagick openjdk-8-jdk python maven git-lfs meld ghex && sudo apt-get autoremove -y
+        sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install -y git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc unzip git imagemagick openjdk-8-jdk python maven git-lfs meld ghex libssl-dev libncurses5 && sudo apt-get autoremove -y
     fi
 }
 
@@ -293,6 +293,7 @@ function BuildAndroid {
     echo ""
     cd $VAR_LOCAL_PATH
     . build/envsetup.sh
+    export LC_ALL=C
     export WITHOUT_CHECK_API=true
     lunch
     brunch $TARGET_PRODUCT-$TARGET_BUILD_VARIANT
