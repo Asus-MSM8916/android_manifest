@@ -295,8 +295,8 @@ function BuildAndroid {
     . build/envsetup.sh
     export LC_ALL=C
     export WITHOUT_CHECK_API=true
-    lunch
-    brunch $TARGET_PRODUCT-$TARGET_BUILD_VARIANT
+    lunch -j $(nproc)
+    brunch $TARGET_PRODUCT-$TARGET_BUILD_VARIANT -j $(nproc)
     echo $LANG_BUILDING_COMPLETE
     echo ""
     exit;
