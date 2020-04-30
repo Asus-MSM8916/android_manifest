@@ -299,7 +299,7 @@ function BuildAndroid {
     brunch $TARGET_PRODUCT-$TARGET_BUILD_VARIANT -j $(nproc)
     echo $LANG_BUILDING_COMPLETE
     echo ""
-    exit;
+    exit
 }
 
 # Cleanup
