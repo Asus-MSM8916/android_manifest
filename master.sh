@@ -1,9 +1,8 @@
 #!/bin/bash
 
 VAR_LOCAL_PATH=$(pwd)
-SH_CHOICE=w
 CONFIG_WITH_TWRP=n
-CONFIG_ANDROID_VERSION=w
+CONFIG_ANDROID_VERSION=x
 CONFIG_OS_SUPPORTED=n
 # Default language
 LANG_HAS_SOURCES="Found sources. Build (b), sync and build (y) or remove (n)?"
@@ -77,6 +76,7 @@ function PrepareSystem {
     else
         echo $LANG_WARN_OS
         echo ""
+        SH_CHOICE=n
         read -s -n 1 SH_CHOICE
     fi
     if [ $CONFIG_OS_SUPPORTED == y ] || [ $SH_CHOICE == y ]; then
@@ -95,6 +95,7 @@ function InitROM {
     echo "2 - LineageOS 16.0"
     echo "3 - LineageOS 17.1"
     echo ""
+    SH_CHOICE=0
     read -s -n 1 SH_CHOICE
     case $SH_CHOICE in
         1)
@@ -129,6 +130,7 @@ function InitDevice {
     echo ""
     echo "1 - Z00xD"
     echo ""
+    SH_CHOICE=0
     read -s -n 1 SH_CHOICE
     case $SH_CHOICE in
         1)
@@ -170,6 +172,7 @@ function AddGapps {
     ClearLogo
     echo $LANG_ADD_GAPPS
     echo ""
+    SH_CHOICE=n
     read -s -n 1 SH_CHOICE
     if [ $SH_CHOICE == y ]; then
         echo "  <!-- OpenGapps -->" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
@@ -250,6 +253,7 @@ function SyncRepo {
     echo $LANG_SYNC_SLOW
     echo $LANG_SYNC_FORCED
     echo ""
+    SH_CHOICE=0
     read -s -n 1 SH_CHOICE
     echo $LANG_SYNC_ROM
     echo ""
@@ -321,6 +325,7 @@ echo ""
 echo "0 - English"
 echo "1 - Russian"
 echo ""
+SH_CHOICE=x
 read -s -n 1 SH_CHOICE
 case $SH_CHOICE in
     0)
@@ -339,6 +344,7 @@ esac
 ClearLogo
 echo $LANG_ASKSETUP
 echo ""
+SH_CHOICE=n
 read -s -n 1 SH_CHOICE
 if [ $SH_CHOICE == y ]; then
     PrepareSystem
@@ -349,6 +355,7 @@ if [ -d $VAR_LOCAL_PATH/device/ ]; then
     ClearLogo
     echo $LANG_HAS_SOURCES
     echo ""
+    SH_CHOICE=x
     read -s -n 1 SH_CHOICE
     case $SH_CHOICE in
         b)
@@ -376,6 +383,7 @@ if [ -d $VAR_LOCAL_PATH/.repo/ ]; then
     ClearLogo
     echo $LANG_HAS_REPO
     echo ""
+    SH_CHOICE=x
     read -s -n 1 SH_CHOICE
     case $SH_CHOICE in
         y)
@@ -408,6 +416,7 @@ echo $LANG_SYNC_DONE
 echo ""
 echo $LANG_BUILD
 echo ""
+SH_CHOICE=n
 read -s -n 1 SH_CHOICE
 if [ $SH_CHOICE == y ]; then
     BuildAndroid
