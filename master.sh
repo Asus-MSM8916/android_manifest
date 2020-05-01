@@ -4,6 +4,7 @@ VAR_LOCAL_PATH=$(pwd)
 SH_CHOICE=w
 CONFIG_WITH_TWRP=n
 CONFIG_ANDROID_VERSION=w
+CONFIG_OS_SUPPORTED=n
 # Default language
 LANG_HAS_SOURCES="Found sources. Build (b), sync and build (y) or remove (n)?"
 LANG_DELETING="Deleting..."
@@ -71,12 +72,14 @@ function LangRu {
 
 function PrepareSystem {
     ClearLogo
-    if [ ! "$(uname -a | grep Ubuntu)" == "Ubuntu" ]; then
+    if [ "$(uname -a | grep Ubuntu)" == "Ubuntu" ]; then
+        CONFIG_OS_SUPPORTED=y
+    else
         echo $LANG_WARN_OS
         echo ""
         read -s -n 1 SH_CHOICE
     fi
-    if [ "$(uname -a | grep Ubuntu)" == "Ubuntu" ] || [ $SH_CHOICE == y ]; then
+    if [ $CONFIG_OS_SUPPORTED == y ] || [ $SH_CHOICE == y ]; then
         echo $LANG_INSTALLING
         echo ""
         sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install -y git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc unzip git imagemagick openjdk-8-jdk python maven git-lfs meld ghex libssl-dev libncurses5 && sudo apt-get autoremove -y
