@@ -71,7 +71,7 @@ function LangRu {
 
 function PrepareSystem {
     ClearLogo
-    if [ "$(uname -a | grep Ubuntu)" == "Ubuntu" ]; then
+    if [ ! "$(uname -a | grep Ubuntu)" == "" ]; then
         CONFIG_OS_SUPPORTED=y
     else
         echo $LANG_WARN_OS
