@@ -292,6 +292,15 @@ function SyncRepo {
     if [ ! $CONFIG_ANDROID_VERSION == t ]; then
         sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/$VAR_JSON_REPO\/lineage_OTA\/master\/{device}_$CONFIG_ANDROID_VERSION.json/" $VAR_LOCAL_PATH/packages/apps/Updater/res/values/strings.xml
     fi
+    ClearLogo
+    if [ -d $VAR_LOCAL_PATH/device/ ]; then
+        echo $LANG_SYNC_DONE
+        echo ""
+    else
+        echo $LANG_SYNC_FAIL
+        echo ""
+        exit
+    fi
 }
 
 function BuildAndroid {
@@ -406,15 +415,6 @@ fi
 echo "</manifest>" >> $VAR_LM_PATH
 SyncRepo
 
-ClearLogo
-if [ -d $VAR_LOCAL_PATH/device/ ]; then
-    echo $LANG_SYNC_DONE
-    echo ""
-else
-    echo $LANG_SYNC_FAIL
-    echo ""
-    exit
-fi
 echo $LANG_BUILD
 echo ""
 SH_CHOICE=n
