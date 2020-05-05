@@ -237,18 +237,10 @@ function SyncRepo {
     if [ ! -d $VAR_LOCAL_PATH/.repo/local_manifests/ ]; then
         echo $LANG_NO_DEVICE
     fi
-    if [ -d $VAR_LOCAL_PATH/hardware/qcom/display-caf/msm8916/ ]; then
-        rm -rf $VAR_LOCAL_PATH/hardware/qcom/display-caf/msm8916/
-    fi
-    if [ -d $VAR_LOCAL_PATH/hardware/qcom/audio-caf/msm8916/ ]; then
-        rm -rf $VAR_LOCAL_PATH/hardware/qcom/audio-caf/msm8916/
-    fi
-    if [ -d $VAR_LOCAL_PATH/hardware/qcom-caf/msm8916/display/ ]; then
-        rm -rf $VAR_LOCAL_PATH/hardware/qcom-caf/msm8916/display/
-    fi
-    if [ -d $VAR_LOCAL_PATH/hardware/qcom-caf/msm8916/audio/ ]; then
-        rm -rf $VAR_LOCAL_PATH/hardware/qcom-caf/msm8916/audio/
-    fi
+    rm -rf $VAR_LOCAL_PATH/hardware/qcom/display-caf/msm8916/
+    rm -rf $VAR_LOCAL_PATH/hardware/qcom/audio-caf/msm8916/
+    rm -rf $VAR_LOCAL_PATH/hardware/qcom-caf/msm8916/display/
+    rm -rf $VAR_LOCAL_PATH/hardware/qcom-caf/msm8916/audio/
     ClearLogo
     echo $LANG_SYNC_TYPE
     echo ""
