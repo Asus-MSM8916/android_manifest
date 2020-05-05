@@ -1,6 +1,7 @@
 #!/bin/bash
 
 VAR_LOCAL_PATH=$(pwd)
+VAR_LM_PATH=$VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
 VAR_JSON_REPO=LineageOS
 CONFIG_ANDROID_VERSION=x
 CONFIG_OS_SUPPORTED=n
@@ -124,9 +125,9 @@ function InitROM {
 # Device should be declared here
 function InitDevice {
     mkdir -p $VAR_LOCAL_PATH/.repo/local_manifests/
-    touch $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
-    echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
-    echo "<manifest>" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
+    touch $VAR_LM_PATH
+    echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" >> $VAR_LM_PATH
+    echo "<manifest>" >> $VAR_LM_PATH
     ClearLogo
     echo $LANG_CHOOSE_DEVICE
     echo ""
@@ -136,25 +137,25 @@ function InitDevice {
     read -s -n 1 SH_CHOICE
     case $SH_CHOICE in
         1)
-            echo "  <!-- ASUS ZenFone 2 Laser ZE500KL ZE500KG -->" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
+            echo "  <!-- ASUS ZenFone 2 Laser ZE500KL ZE500KG -->" >> $VAR_LM_PATH
             VAR_JSON_REPO=Asus-MSM8916
             case $CONFIG_ANDROID_VERSION in
                 p)
-                    echo "  <project name=\"Asus-MSM8916/android_device_asus_Z00xD\" path=\"device/asus/Z00xD\" revision=\"lineage-16.0\" remote=\"github\" />" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
-                    echo "  <project name=\"Asus-MSM8916/android_device_asus_msm8916-common\" path=\"device/asus/msm8916-common\" revision=\"lineage-16.0\" remote=\"github\" />" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
-                    echo "  <project name=\"Asus-MSM8916/android_kernel_asus_msm8916\" path=\"kernel/asus/msm8916\" revision=\"9.x-staging\" remote=\"github\" />" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
-                    echo "  <project name=\"Asus-MSM8916/android_vendor_asus\" path=\"vendor/asus\" revision=\"9.x\" remote=\"github\" />" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
-                    echo "  <project name=\"kdrag0n/aarch64-elf-gcc\" path=\"prebuilts/gcc/linux-x86/aarch64/aarch64-elf\" revision=\"9.x\" remote=\"github\" />" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
+                    echo "  <project name=\"Asus-MSM8916/android_device_asus_Z00xD\" path=\"device/asus/Z00xD\" revision=\"lineage-16.0\" remote=\"github\" />" >> $VAR_LM_PATH
+                    echo "  <project name=\"Asus-MSM8916/android_device_asus_msm8916-common\" path=\"device/asus/msm8916-common\" revision=\"lineage-16.0\" remote=\"github\" />" >> $VAR_LM_PATH
+                    echo "  <project name=\"Asus-MSM8916/android_kernel_asus_msm8916\" path=\"kernel/asus/msm8916\" revision=\"9.x-staging\" remote=\"github\" />" >> $VAR_LM_PATH
+                    echo "  <project name=\"Asus-MSM8916/android_vendor_asus\" path=\"vendor/asus\" revision=\"9.x\" remote=\"github\" />" >> $VAR_LM_PATH
+                    echo "  <project name=\"kdrag0n/aarch64-elf-gcc\" path=\"prebuilts/gcc/linux-x86/aarch64/aarch64-elf\" revision=\"9.x\" remote=\"github\" />" >> $VAR_LM_PATH
                     ;;
                 q)
-                    echo "  <project name=\"Asus-MSM8916/android_device_asus_Z00xD\" path=\"device/asus/Z00xD\" revision=\"lineage-17.1\" remote=\"github\" />" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
-                    echo "  <project name=\"Asus-MSM8916/android_device_asus_msm8916-common\" path=\"device/asus/msm8916-common\" revision=\"lineage-17.1\" remote=\"github\" />" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
-                    echo "  <project name=\"Asus-MSM8916/android_kernel_asus_msm8916\" path=\"kernel/asus/msm8916\" revision=\"10.x\" remote=\"github\" />" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
-                    echo "  <project name=\"Asus-MSM8916/android_vendor_asus\" path=\"vendor/asus\" revision=\"lineage-17.1\" remote=\"github\" />" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
-                    echo "  <project name=\"kdrag0n/aarch64-elf-gcc\" path=\"prebuilts/gcc/linux-x86/aarch64/aarch64-elf\" revision=\"9.x\" remote=\"github\" />" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
+                    echo "  <project name=\"Asus-MSM8916/android_device_asus_Z00xD\" path=\"device/asus/Z00xD\" revision=\"lineage-17.1\" remote=\"github\" />" >> $VAR_LM_PATH
+                    echo "  <project name=\"Asus-MSM8916/android_device_asus_msm8916-common\" path=\"device/asus/msm8916-common\" revision=\"lineage-17.1\" remote=\"github\" />" >> $VAR_LM_PATH
+                    echo "  <project name=\"Asus-MSM8916/android_kernel_asus_msm8916\" path=\"kernel/asus/msm8916\" revision=\"10.x\" remote=\"github\" />" >> $VAR_LM_PATH
+                    echo "  <project name=\"Asus-MSM8916/android_vendor_asus\" path=\"vendor/asus\" revision=\"lineage-17.1\" remote=\"github\" />" >> $VAR_LM_PATH
+                    echo "  <project name=\"kdrag0n/aarch64-elf-gcc\" path=\"prebuilts/gcc/linux-x86/aarch64/aarch64-elf\" revision=\"9.x\" remote=\"github\" />" >> $VAR_LM_PATH
                     ;;
                 t)
-                    echo "  <project name=\"Asus-MSM8916/android_device_asus_Z00xD-twrp\" path=\"device/asus/Z00xD\" revision=\"9.x-twrp\" remote=\"github\" />" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
+                    echo "  <project name=\"Asus-MSM8916/android_device_asus_Z00xD-twrp\" path=\"device/asus/Z00xD\" revision=\"9.x-twrp\" remote=\"github\" />" >> $VAR_LM_PATH
                     ;;
                 *)
                     echo "Error: internal error"
@@ -178,16 +179,16 @@ function AddGapps {
     SH_CHOICE=n
     read -s -n 1 SH_CHOICE
     if [ $SH_CHOICE == y ]; then
-        echo "  <!-- OpenGapps -->" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
-        echo "  <remote name=\"opengapps\" fetch=\"https://github.com/opengapps/\" />" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
-        echo "  <remote name=\"opengapps-gitlab\" fetch=\"https://gitlab.opengapps.org/opengapps/\" />" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
-        echo "  <project path=\"vendor/opengapps/build\" name=\"aosp_build\" revision=\"master\" remote=\"opengapps\" />" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
-        echo "  <project path=\"vendor/opengapps/sources/all\" name=\"all\" clone-depth=\"1\" revision=\"master\" remote=\"opengapps-gitlab\" />" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
-        echo "  <!-- arm64 depends on arm -->" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
-        echo "  <project path=\"vendor/opengapps/sources/arm\" name=\"arm\" clone-depth=\"1\" revision=\"master\" remote=\"opengapps-gitlab\" />" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
-        echo "  <project path=\"vendor/opengapps/sources/arm64\" name=\"arm64\" clone-depth=\"1\" revision=\"master\" remote=\"opengapps-gitlab\" />" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
-        echo "  <project path=\"vendor/opengapps/sources/x86\" name=\"x86\" clone-depth=\"1\" revision=\"master\" remote=\"opengapps-gitlab\" />" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
-        echo "  <project path=\"vendor/opengapps/sources/x86_64\" name=\"x86_64\" clone-depth=\"1\" revision=\"master\" remote=\"opengapps-gitlab\" />" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
+        echo "  <!-- OpenGapps -->" >> $VAR_LM_PATH
+        echo "  <remote name=\"opengapps\" fetch=\"https://github.com/opengapps/\" />" >> $VAR_LM_PATH
+        echo "  <remote name=\"opengapps-gitlab\" fetch=\"https://gitlab.opengapps.org/opengapps/\" />" >> $VAR_LM_PATH
+        echo "  <project path=\"vendor/opengapps/build\" name=\"aosp_build\" revision=\"master\" remote=\"opengapps\" />" >> $VAR_LM_PATH
+        echo "  <project path=\"vendor/opengapps/sources/all\" name=\"all\" clone-depth=\"1\" revision=\"master\" remote=\"opengapps-gitlab\" />" >> $VAR_LM_PATH
+        echo "  <!-- arm64 depends on arm -->" >> $VAR_LM_PATH
+        echo "  <project path=\"vendor/opengapps/sources/arm\" name=\"arm\" clone-depth=\"1\" revision=\"master\" remote=\"opengapps-gitlab\" />" >> $VAR_LM_PATH
+        echo "  <project path=\"vendor/opengapps/sources/arm64\" name=\"arm64\" clone-depth=\"1\" revision=\"master\" remote=\"opengapps-gitlab\" />" >> $VAR_LM_PATH
+        echo "  <project path=\"vendor/opengapps/sources/x86\" name=\"x86\" clone-depth=\"1\" revision=\"master\" remote=\"opengapps-gitlab\" />" >> $VAR_LM_PATH
+        echo "  <project path=\"vendor/opengapps/sources/x86_64\" name=\"x86_64\" clone-depth=\"1\" revision=\"master\" remote=\"opengapps-gitlab\" />" >> $VAR_LM_PATH
     fi
 }
 
@@ -412,7 +413,7 @@ InitDevice
 if [ ! $CONFIG_ANDROID_VERSION == t ]; then
     AddGapps
 fi
-echo "</manifest>" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
+echo "</manifest>" >> $VAR_LM_PATH
 SyncRepo
 
 ClearLogo
