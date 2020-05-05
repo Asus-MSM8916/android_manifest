@@ -308,12 +308,8 @@ function BuildAndroid {
 }
 
 # Cleanup
-if [ -d $VAR_LOCAL_PATH/.git/ ]; then
-    rm -rf $VAR_LOCAL_PATH/.git/
-fi
-if [ -f $VAR_LOCAL_PATH/README.md ]; then
-    rm -rf $VAR_LOCAL_PATH/README.md
-fi
+rm -rf $VAR_LOCAL_PATH/.git/
+rm -rf $VAR_LOCAL_PATH/README.md
 
 # Language
 ClearLogo
