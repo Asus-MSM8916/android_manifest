@@ -1,6 +1,7 @@
 #!/bin/bash
 
 VAR_LOCAL_PATH=$(pwd)
+VAR_JSON_REPO=LineageOS
 CONFIG_WITH_TWRP=n
 CONFIG_ANDROID_VERSION=x
 CONFIG_OS_SUPPORTED=n
@@ -135,6 +136,7 @@ function InitDevice {
     case $SH_CHOICE in
         1)
             echo "  <!-- ASUS ZenFone 2 Laser ZE500KL ZE500KG -->" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
+            VAR_JSON_REPO=Asus-MSM8916
             case $CONFIG_ANDROID_VERSION in
                 p)
                     echo "  <project name=\"Asus-MSM8916/android_device_asus_Z00xD\" path=\"device/asus/Z00xD\" revision=\"lineage-16.0\" remote=\"github\" />" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
@@ -296,10 +298,10 @@ function SyncRepo {
 function AddOTA {
     case $CONFIG_ANDROID_VERSION in
         p)
-            sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/Asus-MSM8916\/lineage_OTA\/master\/{device}p.json/" $VAR_LOCAL_PATH/packages/apps/Updater/res/values/strings.xml
+            sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/$VAR_JSON_REPO\/lineage_OTA\/master\/{device}_p.json/" $VAR_LOCAL_PATH/packages/apps/Updater/res/values/strings.xml
             ;;
         q)
-            sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/Asus-MSM8916\/lineage_OTA\/master\/{device}q.json/" $VAR_LOCAL_PATH/packages/apps/Updater/res/values/strings.xml
+            sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/$VAR_JSON_REPO\/lineage_OTA\/master\/{device}_q.json/" $VAR_LOCAL_PATH/packages/apps/Updater/res/values/strings.xml
             ;;
         *)
             echo "Error: internal error"
