@@ -2,7 +2,6 @@
 
 VAR_LOCAL_PATH=$(pwd)
 VAR_JSON_REPO=LineageOS
-CONFIG_WITH_TWRP=n
 CONFIG_ANDROID_VERSION=x
 CONFIG_OS_SUPPORTED=n
 # Default language
@@ -100,7 +99,6 @@ function InitROM {
     read -s -n 1 SH_CHOICE
     case $SH_CHOICE in
         1)
-            CONFIG_WITH_TWRP=y
             CONFIG_ANDROID_VERSION=t
             repo init --depth=1 -u git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-9.0
             ;;
@@ -309,7 +307,7 @@ function SyncRepo {
     if [ -d $VAR_LOCAL_PATH/vendor/opengapps/ ]; then
         SyncOpenGapps
     fi
-    if [ $CONFIG_WITH_TWRP == n ]; then
+    if [ ! $CONFIG_ANDROID_VERSION == t ]; then
         AddOTA
     fi
 }
@@ -424,7 +422,7 @@ fi
 
 InitROM
 InitDevice
-if [ $CONFIG_WITH_TWRP == n ]; then
+if [ ! $CONFIG_ANDROID_VERSION == t ]; then
     AddGapps
 fi
 echo "</manifest>" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
