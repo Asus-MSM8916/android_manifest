@@ -211,6 +211,7 @@ function SyncOpenGapps {
     echo ""
     cd $VAR_LOCAL_PATH/vendor/opengapps/sources/x86_64
     git lfs pull
+    cd $VAR_LOCAL_PATH/
 }
 
 function FixQcomCaf16 {
@@ -218,6 +219,7 @@ function FixQcomCaf16 {
     curl https://github.com/YaAlex3/android_hardware_qcom_display/commit/81ff90e84f82f95674f4bb0d1a51db2ce123eeef.patch | git am
     cd $VAR_LOCAL_PATH/hardware/qcom/audio-caf/msm8916/
     curl https://github.com/YaAlex3/android_hardware_qcom_audio/commit/82c5cd225e57c21f3475766a5069626b365e66a9.patch | git am
+    cd $VAR_LOCAL_PATH/
 }
 
 function FixQcomCaf17 {
@@ -225,6 +227,7 @@ function FixQcomCaf17 {
     curl https://github.com/YaAlex3/android_hardware_qcom_display/commit/81ff90e84f82f95674f4bb0d1a51db2ce123eeef.patch | git am
     cd $VAR_LOCAL_PATH/hardware/qcom-caf/msm8916/audio
     curl https://github.com/YaAlex3/android_hardware_qcom_audio/commit/82c5cd225e57c21f3475766a5069626b365e66a9.patch | git am
+    cd $VAR_LOCAL_PATH/
 }
 
 function SyncRepo {
@@ -298,7 +301,6 @@ function BuildAndroid {
     ClearLogo
     echo $LANG_BUILDING
     echo ""
-    cd $VAR_LOCAL_PATH
     . build/envsetup.sh
     export LC_ALL=C
     export WITHOUT_CHECK_API=true
@@ -368,7 +370,7 @@ if [ -d $VAR_LOCAL_PATH/device/ ]; then
         n)
             echo $LANG_DELETING
             echo ""
-            cd $VAR_LOCAL_PATH && ls | grep -v master.sh | xargs rm -rf
+            ls | grep -v master.sh | xargs rm -rf
             ;;
         *)
             echo $LANG_ERROR_ACTION
