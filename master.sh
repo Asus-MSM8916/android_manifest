@@ -31,6 +31,7 @@ LANG_SYNC_DONE="Syncing done"
 LANG_BUILD="Would you like to build ROM (y)?"
 LANG_BUILDING="Building..."
 LANG_BUILDING_COMPLETE="Building complete"
+LANG_SYNC_FAIL="Syncing failed"
 
 function ClearLogo {
     clear
@@ -68,6 +69,7 @@ function LangRu {
     LANG_BUILD="Собрать прошивку (y)?"
     LANG_BUILDING="Сборка прошивки..."
     LANG_BUILDING_COMPLETE="Сборка завершена"
+    LANG_SYNC_FAIL="Загрузка не удалась"
 }
 
 function PrepareSystem {
@@ -405,8 +407,14 @@ echo "</manifest>" >> $VAR_LM_PATH
 SyncRepo
 
 ClearLogo
-echo $LANG_SYNC_DONE
-echo ""
+if [ -d $VAR_LOCAL_PATH/device/ ]; then
+    echo $LANG_SYNC_DONE
+    echo ""
+else
+    echo $LANG_SYNC_FAIL
+    echo ""
+    exit
+fi
 echo $LANG_BUILD
 echo ""
 SH_CHOICE=n
