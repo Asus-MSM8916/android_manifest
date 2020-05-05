@@ -293,6 +293,22 @@ function SyncRepo {
     fi
 }
 
+function AddOTA {
+    case $CONFIG_ANDROID_VERSION in
+        p)
+            sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/Asus-MSM8916\/lineage_OTA\/master\/{device}p.json/" $VAR_LOCAL_PATH/packages/apps/Updater/res/values/strings.xml
+            ;;
+        q)
+            sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/Asus-MSM8916\/lineage_OTA\/master\/{device}q.json/" $VAR_LOCAL_PATH/packages/apps/Updater/res/values/strings.xml
+            ;;
+        *)
+            echo "Error: internal error"
+            echo ""
+            exit
+            ;;
+    esac
+}
+
 function BuildAndroid {
     ClearLogo
     echo $LANG_BUILDING
@@ -408,6 +424,9 @@ if [ $CONFIG_WITH_TWRP == n ]; then
 fi
 echo "</manifest>" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
 SyncRepo
+if [ $CONFIG_WITH_TWRP == n ]; then
+    AddOTA
+fi
 
 ClearLogo
 echo $LANG_SYNC_DONE
