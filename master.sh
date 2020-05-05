@@ -226,10 +226,6 @@ function FixQcomCaf17 {
     sed -i "s/zd/ld/g" $VAR_LOCAL_PATH/hardware/qcom-caf/msm8916/audio/hal/audio_hw.c
 }
 
-function AddOTA {
-    sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/$VAR_JSON_REPO\/lineage_OTA\/master\/{device}_$CONFIG_ANDROID_VERSION.json/" $VAR_LOCAL_PATH/packages/apps/Updater/res/values/strings.xml
-}
-
 function SyncRepo {
     if [ ! -d $VAR_LOCAL_PATH/.repo/ ]; then
         echo $LANG_NO_REPO
@@ -296,7 +292,7 @@ function SyncRepo {
         SyncOpenGapps
     fi
     if [ ! $CONFIG_ANDROID_VERSION == t ]; then
-        AddOTA
+        sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/$VAR_JSON_REPO\/lineage_OTA\/master\/{device}_$CONFIG_ANDROID_VERSION.json/" $VAR_LOCAL_PATH/packages/apps/Updater/res/values/strings.xml
     fi
 }
 
