@@ -373,7 +373,7 @@ if [ -d $PATH_PWD/device/ ]; then
             SyncGapps
         fi
         if [ $CONFIG_RECOVERY == n ]; then
-            sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/$REPO_JSON\/lineage_OTA\/master\/{device}_$CONFIG_ANDROID_VERSION.json/" $PATH_PWD/packages/apps/Updater/res/values/strings.xml
+            sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/$REPO_JSON\/lineage_OTA\/master\/{device}_$CONFIG_ANDROID.json/" $PATH_PWD/packages/apps/Updater/res/values/strings.xml
         fi
     fi
 else
@@ -383,7 +383,7 @@ else
         SyncGapps
     fi
     if [ $CONFIG_RECOVERY == n ]; then
-        sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/$REPO_JSON\/lineage_OTA\/master\/{device}_$CONFIG_ANDROID_VERSION.json/" $PATH_PWD/packages/apps/Updater/res/values/strings.xml
+        sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/$REPO_JSON\/lineage_OTA\/master\/{device}_$CONFIG_ANDROID.json/" $PATH_PWD/packages/apps/Updater/res/values/strings.xml
     fi
 fi
 
