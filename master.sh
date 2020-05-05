@@ -215,19 +215,15 @@ function SyncOpenGapps {
 }
 
 function FixQcomCaf16 {
-    cd $VAR_LOCAL_PATH/hardware/qcom/display-caf/msm8916/
-    curl https://github.com/YaAlex3/android_hardware_qcom_display/commit/81ff90e84f82f95674f4bb0d1a51db2ce123eeef.patch | git am
-    cd $VAR_LOCAL_PATH/hardware/qcom/audio-caf/msm8916/
-    curl https://github.com/YaAlex3/android_hardware_qcom_audio/commit/82c5cd225e57c21f3475766a5069626b365e66a9.patch | git am
-    cd $VAR_LOCAL_PATH/
+    sed -i "s/zd/ld/g" $VAR_LOCAL_PATH/hardware/qcom/display-caf/msm8916/libhdmi/hdmi.cpp
+    sed -i "s/zd/ld/g" $VAR_LOCAL_PATH/hardware/qcom/display-caf/msm8916/libqdutils/idle_invalidator.cpp
+    sed -i "s/zd/ld/g" $VAR_LOCAL_PATH/hardware/qcom/audio-caf/msm8916/hal/audio_hw.c
 }
 
 function FixQcomCaf17 {
-    cd $VAR_LOCAL_PATH/hardware/qcom-caf/msm8916/display
-    curl https://github.com/YaAlex3/android_hardware_qcom_display/commit/81ff90e84f82f95674f4bb0d1a51db2ce123eeef.patch | git am
-    cd $VAR_LOCAL_PATH/hardware/qcom-caf/msm8916/audio
-    curl https://github.com/YaAlex3/android_hardware_qcom_audio/commit/82c5cd225e57c21f3475766a5069626b365e66a9.patch | git am
-    cd $VAR_LOCAL_PATH/
+    sed -i "s/zd/ld/g" $VAR_LOCAL_PATH/hardware/qcom-caf/msm8916/display/libhdmi/hdmi.cpp
+    sed -i "s/zd/ld/g" $VAR_LOCAL_PATH/hardware/qcom-caf/msm8916/display/libqdutils/idle_invalidator.cpp
+    sed -i "s/zd/ld/g" $VAR_LOCAL_PATH/hardware/qcom-caf/msm8916/audio/hal/audio_hw.c
 }
 
 function SyncRepo {
