@@ -228,6 +228,22 @@ function FixQcomCaf17 {
     sed -i "s/zd/ld/g" $VAR_LOCAL_PATH/hardware/qcom-caf/msm8916/audio/hal/audio_hw.c
 }
 
+function AddOTA {
+    case $CONFIG_ANDROID_VERSION in
+        p)
+            sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/$VAR_JSON_REPO\/lineage_OTA\/master\/{device}_p.json/" $VAR_LOCAL_PATH/packages/apps/Updater/res/values/strings.xml
+            ;;
+        q)
+            sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/$VAR_JSON_REPO\/lineage_OTA\/master\/{device}_q.json/" $VAR_LOCAL_PATH/packages/apps/Updater/res/values/strings.xml
+            ;;
+        *)
+            echo "Error: internal error"
+            echo ""
+            exit
+            ;;
+    esac
+}
+
 function SyncRepo {
     if [ ! -d $VAR_LOCAL_PATH/.repo/ ]; then
         echo $LANG_NO_REPO
@@ -293,22 +309,9 @@ function SyncRepo {
     if [ -d $VAR_LOCAL_PATH/vendor/opengapps/ ]; then
         SyncOpenGapps
     fi
-}
-
-function AddOTA {
-    case $CONFIG_ANDROID_VERSION in
-        p)
-            sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/$VAR_JSON_REPO\/lineage_OTA\/master\/{device}_p.json/" $VAR_LOCAL_PATH/packages/apps/Updater/res/values/strings.xml
-            ;;
-        q)
-            sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/$VAR_JSON_REPO\/lineage_OTA\/master\/{device}_q.json/" $VAR_LOCAL_PATH/packages/apps/Updater/res/values/strings.xml
-            ;;
-        *)
-            echo "Error: internal error"
-            echo ""
-            exit
-            ;;
-    esac
+    if [ $CONFIG_WITH_TWRP == n ]; then
+        AddOTA
+    fi
 }
 
 function BuildAndroid {
@@ -426,9 +429,6 @@ if [ $CONFIG_WITH_TWRP == n ]; then
 fi
 echo "</manifest>" >> $VAR_LOCAL_PATH/.repo/local_manifests/local_manifest.xml
 SyncRepo
-if [ $CONFIG_WITH_TWRP == n ]; then
-    AddOTA
-fi
 
 ClearLogo
 echo $LANG_SYNC_DONE
