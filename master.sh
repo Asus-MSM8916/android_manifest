@@ -227,19 +227,7 @@ function FixQcomCaf17 {
 }
 
 function AddOTA {
-    case $CONFIG_ANDROID_VERSION in
-        p)
-            sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/$VAR_JSON_REPO\/lineage_OTA\/master\/{device}_p.json/" $VAR_LOCAL_PATH/packages/apps/Updater/res/values/strings.xml
-            ;;
-        q)
-            sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/$VAR_JSON_REPO\/lineage_OTA\/master\/{device}_q.json/" $VAR_LOCAL_PATH/packages/apps/Updater/res/values/strings.xml
-            ;;
-        *)
-            echo "Error: internal error"
-            echo ""
-            exit
-            ;;
-    esac
+    sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/$VAR_JSON_REPO\/lineage_OTA\/master\/{device}_$CONFIG_ANDROID_VERSION.json/" $VAR_LOCAL_PATH/packages/apps/Updater/res/values/strings.xml
 }
 
 function SyncRepo {
