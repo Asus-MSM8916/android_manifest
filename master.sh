@@ -5,6 +5,8 @@ PATH_SETTINGS=$PATH_PWD/mdata
 
 FILE_LM=$PATH_PWD/.repo/local_manifests/local_manifest.xml
 
+REPO_JSON=default
+
 CONFIG_LANG=default
 CONFIG_ANDROID=default
 CONFIG_RECOVERY=default
@@ -152,6 +154,7 @@ function SetupDevice {
     case $CHOICE in
         1)
             CONFIG_DEVICE=Z00xD
+            REPO_JSON=Asus-MSM8916
             echo "  <!-- ASUS ZenFone 2 Laser ZE500KL ZE500KG -->" >> $FILE_LM
             if [ $CONFIG_RECOVERY == y ]; then
                 echo "  <project name=\"Asus-MSM8916/android_device_asus_Z00xD-twrp\" path=\"device/asus/Z00xD\" revision=\"9.x-twrp\" remote=\"github\" />" >> $FILE_LM
@@ -236,16 +239,16 @@ function SyncGapps {
 
 function FixQcomCaf_p {
     ClearLogo
-    sed -i "s/zd/ld/g" $VAR_LOCAL_PATH/hardware/qcom/display-caf/msm8916/libhdmi/hdmi.cpp
-    sed -i "s/zd/ld/g" $VAR_LOCAL_PATH/hardware/qcom/display-caf/msm8916/libqdutils/idle_invalidator.cpp
-    sed -i "s/zd/ld/g" $VAR_LOCAL_PATH/hardware/qcom/audio-caf/msm8916/hal/audio_hw.c
+    sed -i "s/zd/ld/g" $PATH_PWD/hardware/qcom/display-caf/msm8916/libhdmi/hdmi.cpp
+    sed -i "s/zd/ld/g" $PATH_PWD/hardware/qcom/display-caf/msm8916/libqdutils/idle_invalidator.cpp
+    sed -i "s/zd/ld/g" $PATH_PWD/hardware/qcom/audio-caf/msm8916/hal/audio_hw.c
 }
 
 function FixQcomCaf_q {
     ClearLogo
-    sed -i "s/zd/ld/g" $VAR_LOCAL_PATH/hardware/qcom-caf/msm8916/display/libhdmi/hdmi.cpp
-    sed -i "s/zd/ld/g" $VAR_LOCAL_PATH/hardware/qcom-caf/msm8916/display/libqdutils/idle_invalidator.cpp
-    sed -i "s/zd/ld/g" $VAR_LOCAL_PATH/hardware/qcom-caf/msm8916/audio/hal/audio_hw.c
+    sed -i "s/zd/ld/g" $PATH_PWD/hardware/qcom-caf/msm8916/display/libhdmi/hdmi.cpp
+    sed -i "s/zd/ld/g" $PATH_PWD/hardware/qcom-caf/msm8916/display/libqdutils/idle_invalidator.cpp
+    sed -i "s/zd/ld/g" $PATH_PWD/hardware/qcom-caf/msm8916/audio/hal/audio_hw.c
 }
 
 function SyncAll {
@@ -370,7 +373,7 @@ if [ -d $PATH_PWD/device/ ]; then
             SyncGapps
         fi
         if [ $CONFIG_RECOVERY == n ]; then
-            sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/$VAR_JSON_REPO\/lineage_OTA\/master\/{device}_$CONFIG_ANDROID_VERSION.json/" $VAR_LOCAL_PATH/packages/apps/Updater/res/values/strings.xml
+            sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/$REPO_JSON\/lineage_OTA\/master\/{device}_$CONFIG_ANDROID_VERSION.json/" $PATH_PWD/packages/apps/Updater/res/values/strings.xml
         fi
     fi
 else
@@ -380,7 +383,7 @@ else
         SyncGapps
     fi
     if [ $CONFIG_RECOVERY == n ]; then
-        sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/$VAR_JSON_REPO\/lineage_OTA\/master\/{device}_$CONFIG_ANDROID_VERSION.json/" $VAR_LOCAL_PATH/packages/apps/Updater/res/values/strings.xml
+        sed -i "s/https:\/\/download.lineageos.org\/api\/v1\/{device}\/{type}\/{incr}/https:\/\/raw.githubusercontent.com\/$REPO_JSON\/lineage_OTA\/master\/{device}_$CONFIG_ANDROID_VERSION.json/" $PATH_PWD/packages/apps/Updater/res/values/strings.xml
     fi
 fi
 
