@@ -308,7 +308,7 @@ function BuildAndroid {
     export LC_ALL=C
     export WITHOUT_CHECK_API=true
     make installclean -j $(nproc)
-    lunch -j $(nproc)
+    lunch
     brunch $TARGET_PRODUCT-$TARGET_BUILD_VARIANT -j $(nproc)
 }
 
