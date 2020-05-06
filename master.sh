@@ -41,6 +41,7 @@ function LoadLangEN {
     LANGMASTER_0007="2 - Slow"
     LANGMASTER_0008="3 - Forced"
     LANGMASTER_0009="Build android (y)?"
+    LANGMASTER_0010="Install build packages (y)?"
 }
 
 function LoadLangRU {
@@ -61,6 +62,7 @@ function LoadLangRU {
     LANGMASTER_0007="2 - Медленная"
     LANGMASTER_0008="3 - Принудительная"
     LANGMASTER_0009="Собрать Android (y)?"
+    LANGMASTER_0010="Установить сборочные пакеты (y)?"
 }
 
 function SetupLanguage {
@@ -92,10 +94,16 @@ function SetupLanguage {
 function SetupPackages {
     ClearLogo
     if [ -f /bin/apt ]; then
-        sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install -y git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc unzip git imagemagick openjdk-8-jdk python maven git-lfs meld ghex libssl-dev libncurses5 && sudo apt-get autoremove -y
-        curl https://storage.googleapis.com/git-repo-downloads/repo > repo
-        chmod a+x repo
-        sudo mv repo /bin/repo
+        echo $LANGMASTER_0010
+        echo ""
+        CHOICE=default
+        read -s -n 1 CHOICE
+        if [ $CHOICE == y ]; then
+            sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install -y git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc unzip git imagemagick openjdk-8-jdk python maven git-lfs meld ghex libssl-dev libncurses5 && sudo apt-get autoremove -y
+            curl https://storage.googleapis.com/git-repo-downloads/repo > repo
+            chmod a+x repo
+            sudo mv repo /bin/repo
+        fi
     else
         echo $LANGMASTER_ERR_0000
         echo ""
