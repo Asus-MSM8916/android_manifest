@@ -368,8 +368,8 @@ function CreateRelease {
     cd $PATHMASTER_OUT/masterotadir
     git add $CONFIGMASTER_JSON_JSON
     git commit -m "[MASTERSCRIPT] New release for $CONFIGMASTER_DEVICE android $CONFIGMASTER_NUM version $(($CONFIGMASTER_JSON_REL+1))"
-    #git push
-    #rm -rf $PATHMASTER_OUT/masterotadir
+    git push
+    rm -rf $PATHMASTER_OUT/masterotadir/
     echo $LANGMASTER_0012
     echo "$CONFIGMASTER_NUM"_$(($CONFIGMASTER_JSON_REL+1))
     echo ""
