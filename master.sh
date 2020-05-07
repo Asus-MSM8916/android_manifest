@@ -473,7 +473,7 @@ ClearLogo
 PATHMASTER_OUT=$PATHMASTER_PWD/out/target/product/$CONFIGMASTER_DEVICE
 if [ -f $PATHMASTER_OUT/lineage-*$CONFIGMASTER_DEVICE.zip ]; then
     echo $LANGMASTER_0011
-    ""
+    echo ""
     CHOICE=n
     read -s -n 1 CHOICE
     if [ $CHOICE == y ]; then
