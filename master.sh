@@ -290,6 +290,7 @@ function SyncAll {
     rm -rf $PATHMASTER_PWD/hardware/qcom/audio-caf/msm8916/
     rm -rf $PATHMASTER_PWD/hardware/qcom-caf/msm8916/display/
     rm -rf $PATHMASTER_PWD/hardware/qcom-caf/msm8916/audio/
+    rm -rf $PATHMASTER_PWD/packages/apps/Updater/
     echo $LANGMASTER_0005
     echo ""
     echo $LANGMASTER_0006
