@@ -2,6 +2,7 @@
 
 PATHMASTER_PWD=$(pwd)/master_pwd
 PATHMASTER_SETTINGS=$PATHMASTER_PWD/mdata
+PATHMASTER_OUT=default
 
 FILEMASTER_LM=$PATHMASTER_PWD/.repo/local_manifests/local_manifest.xml
 
@@ -31,6 +32,7 @@ function LoadLangEN {
     LANGMASTER_ERR_0004="Error: no device manifest"
     LANGMASTER_ERR_0005="Error: no such sync type"
     LANGMASTER_ERR_0006="Error: sync failed"
+    LANGMASTER_ERR_0007="Error: build failed"
     LANGMASTER_0000="Choose ROM"
     LANGMASTER_0001="Choose device"
     LANGMASTER_0002="Add OpenGapps (y)?"
@@ -42,6 +44,8 @@ function LoadLangEN {
     LANGMASTER_0008="3 - Forced"
     LANGMASTER_0009="Build android (y)?"
     LANGMASTER_0010="Install build packages (y)?"
+    LANGMASTER_0011="Create release (y)?"
+    LANGMASTER_0012="Use this number for release: "
 }
 
 function LoadLangRU {
@@ -52,6 +56,7 @@ function LoadLangRU {
     LANGMASTER_ERR_0004="Ошибка: устройство не проинициализировано"
     LANGMASTER_ERR_0005="Ошибка: нет такого типа синхронизации"
     LANGMASTER_ERR_0006="Ошибка: синхронизация не удалась"
+    LANGMASTER_ERR_0007="Ошибка: сборка не удалась"
     LANGMASTER_0000="Выберите прошивку"
     LANGMASTER_0001="Выберите устройство"
     LANGMASTER_0002="Добавить OpenGapps (y)?"
@@ -63,6 +68,8 @@ function LoadLangRU {
     LANGMASTER_0008="3 - Принудительная"
     LANGMASTER_0009="Собрать Android (y)?"
     LANGMASTER_0010="Установить сборочные пакеты (y)?"
+    LANGMASTER_0011="Опубликовать релиз (y)?"
+    LANGMASTER_0012="Используйте этот номер при релизе: "
 }
 
 function SetupLanguage {
@@ -124,16 +131,19 @@ function SetupAndroid {
     case $CHOICE in
         1)
             CONFIGMASTER_ANDROID=p
+            CONFIGMASTER_NUM=16.0
             CONFIGMASTER_RECOVERY=y
             repo init --depth=1 -u git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-9.0
             ;;
         2)
             CONFIGMASTER_ANDROID=p
+            CONFIGMASTER_NUM=16.0
             CONFIGMASTER_RECOVERY=n
             repo init --depth=1 -u git://github.com/LineageOS/android.git -b lineage-16.0
             ;;
         3)
             CONFIGMASTER_ANDROID=q
+            CONFIGMASTER_NUM=17.1
             CONFIGMASTER_RECOVERY=n
             repo init --depth=1 -u git://github.com/LineageOS/android.git -b lineage-17.1
             ;;
@@ -145,6 +155,7 @@ function SetupAndroid {
     esac
     echo "ANDROID=$CONFIGMASTER_ANDROID" >> $PATHMASTER_SETTINGS
     echo "RECOVERY=$CONFIGMASTER_RECOVERY" >> $PATHMASTER_SETTINGS
+    echo "NUM=$CONFIGMASTER_NUM" >> $PATHMASTER_SETTINGS
 }
 
 function SetupDevice {
@@ -312,6 +323,59 @@ function BuildAndroid {
     brunch $TARGET_PRODUCT-$TARGET_BUILD_VARIANT -j $(nproc)
 }
 
+CONFIGMASTER_JSON_DATETIME=default
+CONFIGMASTER_JSON_FILENAME=default
+CONFIGMASTER_JSON_ID=default
+CONFIGMASTER_JSON_TYPE=default
+CONFIGMASTER_JSON_REL=default
+CONFIGMASTER_JSON_URL=default
+CONFIGMASTER_JSON_JSON
+
+function CreateRelease {
+    cd $PATHMASTER_OUT
+    git clone https://github.com/$REPOMASTER_JSON/lineage_OTA $PATHMASTER_OUT/masterotadir
+    CONFIGMASTER_JSON_DATETIME=$(cat $PATHMASTER_OUT/system/build.prop | grep ro.build.date.utc=)
+    CONFIGMASTER_JSON_DATETIME={CONFIGMASTER_JSON_DATETIME:18}
+    CONFIGMASTER_JSON_FILENAME=$(ls $PATHMASTER_OUT/ | grep lineage-*$CONFIGMASTER_DEVICE.zip | grep -v md5sum)
+    CONFIGMASTER_JSON_ID=$(md5sum $PATHMASTER_OUT/$CONFIGMASTER_JSON_FILENAME)
+    CONFIGMASTER_JSON_ID={CONFIGMASTER_JSON_ID%% *}
+    if [ "$(ls | grep UNOFFICIAL)" == "" ]; then
+        CONFIGMASTER_JSON_TYPE=OFFICIAL
+    else
+        CONFIGMASTER_JSON_TYPE=UNOFFICIAL
+    fi
+    CONFIGMASTER_JSON_SIZE=$(stat -c%s $PATHMASTER_OUT/$CONFIGMASTER_JSON_FILENAME)
+    CONFIGMASTER_JSON_REL=$(cat $PATHMASTER_OUT/masterotadir/masterdata | grep "$CONFIGMASTER_DEVICE"_$CONFIGMASTER_ANDROID)
+    CONFIGMASTER_JSON_REL=${CONFIGMASTER_JSON_REL:$((${#CONFIGMASTER_DEVICE}+3))}
+    sed -i "s/"$CONFIGMASTER_DEVICE"_$CONFIGMASTER_ANDROID-$CONFIGMASTER_JSON_REL/"$CONFIGMASTER_DEVICE"_$CONFIGMASTER_ANDROID-$(($CONFIGMASTER_JSON_REL+1))/" $PATHMASTER_OUT/masterotadir/masterdata
+    CONFIGMASTER_JSON_URL="https://github.com/$REPOMASTER_JSON/lineage_OTA/releases/download/"$CONFIGMASTER_NUM"_$(($CONFIGMASTER_JSON_REL+1))/$CONFIGMASTER_JSON_FILENAME"
+    CONFIGMASTER_JSON_JSON=$PATHMASTER_OUT/masterotadir/"$CONFIGMASTER_DEVICE"_$CONFIGMASTER_ANDROID.json
+    rm -rf $CONFIGMASTER_JSON_JSON
+    touch $CONFIGMASTER_JSON_JSON
+    echo "{" >> $CONFIGMASTER_JSON_JSON
+    echo "  \"response\": [" >> $CONFIGMASTER_JSON_JSON
+    echo "    {" >> $CONFIGMASTER_JSON_JSON
+    echo "      \"datetime\": $CONFIGMASTER_JSON_DATETIME," >> $CONFIGMASTER_JSON_JSON
+    echo "      \"filename\": \"$CONFIGMASTER_JSON_FILENAME\"," >> $CONFIGMASTER_JSON_JSON
+    echo "      \"id\": \"$CONFIGMASTER_JSON_ID\"," >> $CONFIGMASTER_JSON_JSON
+    echo "      \"romtype\": \"$CONFIGMASTER_JSON_TYPE\"," >> $CONFIGMASTER_JSON_JSON
+    echo "      \"size\": $CONFIGMASTER_JSON_SIZE," >> $CONFIGMASTER_JSON_JSON
+    echo "      \"url\": \"$CONFIGMASTER_JSON_URL\"," >> $CONFIGMASTER_JSON_JSON
+    echo "      \"version\": \"$CONFIGMASTER_NUM\"" >> $CONFIGMASTER_JSON_JSON
+    echo "    }" >> $CONFIGMASTER_JSON_JSON
+    echo "  ]" >> $CONFIGMASTER_JSON_JSON
+    echo "}" >> $CONFIGMASTER_JSON_JSON
+    cd $PATHMASTER_OUT/masterotadir
+    git add $CONFIGMASTER_JSON_JSON
+    git commit -m "[MASTERSCRIPT] New release for $CONFIGMASTER_DEVICE android $CONFIGMASTER_NUM version $(($CONFIGMASTER_JSON_REL+1))"
+    #git push
+    #rm -rf $PATHMASTER_OUT/masterotadir
+    echo $LANGMASTER_0012
+    echo "$CONFIGMASTER_NUM"_$(($CONFIGMASTER_JSON_REL+1))
+    echo ""
+    cd $PATHMASTER_PWD
+}
+
 function LoadSettings {
     ClearLogo
     CONFIGMASTER_LANG=$(cat $PATHMASTER_SETTINGS | grep LANG)
@@ -319,12 +383,15 @@ function LoadSettings {
     LoadLang$CONFIGMASTER_LANG
     CONFIGMASTER_ANDROID=$(cat $PATHMASTER_SETTINGS | grep ANDROID)
     CONFIGMASTER_ANDROID=${CONFIGMASTER_ANDROID:8}
+    CONFIGMASTER_NUM=(cat $PATHMASTER_SETTINGS | grep NUM)
+    CONFIGMASTER_NUM=${CONFIGMASTER_NUM:4}
     CONFIGMASTER_RECOVERY=$(cat $PATHMASTER_SETTINGS | grep RECOVERY)
     CONFIGMASTER_RECOVERY=${CONFIGMASTER_RECOVERY:9}
     CONFIGMASTER_DEVICE=$(cat $PATHMASTER_SETTINGS | grep DEVICE)
     CONFIGMASTER_DEVICE=${CONFIGMASTER_DEVICE:7}
     echo "LANGUAGE $CONFIGMASTER_LANG"
     echo "ANDROID $CONFIGMASTER_ANDROID"
+    echo "NUM $CONFIGMASTER_NUM"
     echo "RECOVERY $CONFIGMASTER_RECOVERY"
     echo "DEVICE $CONFIGMASTER_DEVICE"
 }
@@ -401,4 +468,20 @@ CHOICE=n
 read -s -n 1 CHOICE
 if [ $CHOICE == y ]; then
     BuildAndroid
+fi
+
+ClearLogo
+PATHMASTER_OUT=$PATHMASTER_PWD/out/target/product/$CONFIGMASTER_DEVICE
+if [ -f $PATHMASTER_OUT/lineage-*$CONFIGMASTER_DEVICE.zip ]; then
+    echo $LANGMASTER_0011
+    ""
+    CHOICE=n
+    read -s -n 1 CHOICE
+    if [ $CHOICE == y ]; then
+        CreateRelease
+    fi
+else
+    echo $LANGMASTER_ERR_0007
+    ""
+    exit
 fi
